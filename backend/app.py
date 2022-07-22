@@ -32,8 +32,7 @@ try:
            
            
     def getAllUsers(json_str=True):
-        cur = connection .cursor()
-        cur = connection .cursor()
+        cur = connection.cursor()
         cur.execute("SELECT * FROM user")
         userDetails = cur.fetchall()
         cur.close()
