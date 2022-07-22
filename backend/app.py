@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import Flask, make_response, render_template, request, jsonify, json, redirect
+from flask_cors import CORS
 import mysql.connector as mysql
 from mysql.connector import Error
 import yaml
@@ -8,10 +9,10 @@ import jwt
 from functools import wraps
 import requests
 
-
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRETY_KEY'] = 'thisistechtrek6'
+CORS(app=app)
 
 try:
     db = yaml.load(open('db.yaml'), Loader=yaml.Loader)
@@ -39,24 +40,18 @@ try:
             return f(*args, **kwargs)
         
         return decorated
-    
-    def getUserIdFromToken(token):
-        data = jwt.decode(token, app.config['SECRETY_KEY'], algorithms=["HS256"])
-        return data['userId']
-        
 
     def getUserPassword(userName):
         try:
             statement = "select * from user where username = '{}'".format(userName)
             cur = connection .cursor()
             cur.execute(statement)
-            userRecord = cur.fetchall()
-            password = userRecord[0][2]
-            userId = userRecord[0][0]
+            password = cur.fetchall()
+            password = password[0][2]
             cur.close()
-            return userId, password
+            return password
         except:
-            return None, None
+            return None
 
     class create_dict(dict): 
     
@@ -78,55 +73,14 @@ try:
         for row in userDetails:
             mydict.add(row[0],({"username":row[1],"user":row[3]}))
         return  json.dumps(mydict, indent=2, sort_keys=True)
-    
-    def getAllWallets(json_str=True):
-        userId = getUserIdFromToken(request.args.get('token'))
-        cur = connection.cursor()
-        cur.execute("SELECT * FROM wallet where user_id={}".format(userId))
-        walletDetails = cur.fetchall()
-        cur.close()
-        mydict = create_dict()
-        for x, row in enumerate(walletDetails, start=1):
-            mydict.add(x,({"user_id":row[1], "name":row[2]}))
-        return  json.dumps(mydict, indent=2, sort_keys=True)
-    
-   
-    def getAllExchangeRates(json_str=True):
-        cur = connection.cursor()
-        cur.execute("SELECT * FROM exchange_rate")
-        exchangeRateDetails = cur.fetchall()
-        cur.close()
-        mydict = create_dict()
-        for row in exchangeRateDetails:
-            mydict.add(row[0],({"base_currency":row[1],"exchange_currency":row[2], "rate":row[3]}))
-        return  json.dumps(mydict, indent=2, sort_keys=True)
 
 
     @app.route('/users')
-    @token_required
+    # @token_required
     def users():
         userDetails = getAllUsers()
         if userDetails:
             return userDetails
-        
-    @app.route('/wallets')
-    @token_required
-    def wallets():
-        walletDetails = getAllWallets()
-        if walletDetails:
-            return walletDetails
-        
-    @app.route('/exchanges')
-    def exchangeRates():
-        exchangeRateDetails = getAllExchangeRates()
-        if exchangeRateDetails:
-            return exchangeRateDetails
-        
-    # @app.route('/currency')
-    # def exchangeRate():
-    #     exchangeRateDetails = getAllExchangeRate()
-    #     if exchangeRateDetails:
-    #         return exchangeRateDetails
         
         
     @app.route('/login', methods=['POST'])
@@ -134,9 +88,9 @@ try:
         auth = request.authorization
         userInput = auth.username
         passwordInput = auth.password
-        userIdDB, passwordDB = getUserPassword(userInput) 
+        passwordDB = getUserPassword(userInput) 
         if(userInput and passwordInput == passwordDB):
-            token = jwt.encode({'user' : auth.username, 'userId': userIdDB,'exp': datetime.utcnow() + timedelta(minutes=120)}, app.config['SECRETY_KEY'] )
+            token = jwt.encode({'user' : auth.username, 'exp': datetime.utcnow() + timedelta(minutes=120)}, app.config['SECRETY_KEY'] )
             return jsonify({'token': token})
         return make_response('could not verify!', 404, {'WWW-Authenticate': 'Basic realm:"login required"'})
     
