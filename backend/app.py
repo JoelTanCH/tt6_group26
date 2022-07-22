@@ -19,6 +19,37 @@ try:
                 user=db['mysql_user'],
                 passwd=db['mysql_password'],
                 db=db['mysql_db'])
+    
+    def token_required(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            print(request.args)
+            token = request.args.get('token') # http://127.0.0.1:500/route?token=
+            print(token)
+            if not token:
+                return jsonify({'message': 'token is missing'}), 403
+
+            try:
+                data = jwt.decode(token, app.config['SECRETY_KEY'], algorithms=["HS256"])
+                print('data: {}'.format(data))
+            except:
+                return jsonify({'message':'Token is invalid'}), 403
+            
+            return f(*args, **kwargs)
+        
+        return decorated
+
+    def getUserPassword(userName):
+        try:
+            statement = "select * from user where username = '{}'".format(userName)
+            cur = connection .cursor()
+            cur.execute(statement)
+            password = cur.fetchall()
+            password = password[0][2]
+            cur.close()
+            return password
+        except:
+            return None
 
     class create_dict(dict): 
     
@@ -32,8 +63,7 @@ try:
            
            
     def getAllUsers(json_str=True):
-        cur = connection .cursor()
-        cur = connection .cursor()
+        cur = connection.cursor()
         cur.execute("SELECT * FROM user")
         userDetails = cur.fetchall()
         cur.close()
@@ -47,10 +77,21 @@ try:
     # @token_required
     def users():
         userDetails = getAllUsers()
-        print(type(userDetails))
-        print(userDetails)
         if userDetails:
             return userDetails
+        
+        
+    @app.route('/login', methods=['POST'])
+    def login():
+        auth = request.authorization
+        userInput = auth.username
+        passwordInput = auth.password
+        passwordDB = getUserPassword(userInput) 
+        if(userInput and passwordInput == passwordDB):
+            token = jwt.encode({'user' : auth.username, 'exp': datetime.utcnow() + timedelta(minutes=120)}, app.config['SECRETY_KEY'] )
+            return jsonify({'token': token})
+        return make_response('could not verify!', 404, {'WWW-Authenticate': 'Basic realm:"login required"'})
+    
         
     if __name__ == "__main__":
         app.run()
