@@ -9,6 +9,7 @@ function App() {
       <header className="App-header">
       </header>
       <DashBoard />
+      <Login/>
     </div>
   );
 }
