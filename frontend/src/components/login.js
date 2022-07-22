@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { login } from "../Api/api";
 import { useNavigate } from "react-router-dom";
-
+import AuthContext from "../context/AuthContext";
 
 export default function Login() {
+  let {auth, setAuth} = useContext(AuthContext);
   const [showPopUp, setShowPopUp] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [permission,setPermission] =useState(false)
 
-  const checkUserName = (inputEmail) => {
-    if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(inputEmail)) {
-      setShowPopUp(true);
-    }
-  };
+  // const checkUserName = (inputEmail) => {
+  //   if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(inputEmail)) {
+  //     setShowPopUp(true);
+  //   }
+  // };
   const checkLogin = (userName, userPassword) => {
     if(userName==='testuser' && userPassword==='testpassword'){
         setPermission(true)
@@ -68,11 +69,11 @@ export default function Login() {
       <button
         className="login_button" onClick={
           () => {
-            checkUserName(userName);
             checkLogin(userName,password);
             console.log(userName, password);
             handleLogin(userName, password);
-            this.setState({loggedIn: true});
+            setAuth(true);
+            navigate("/home");
           }
           
         }
