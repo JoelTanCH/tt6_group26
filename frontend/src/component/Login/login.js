@@ -19,7 +19,6 @@ export default function Login() {
     }
   };
 
-  //if permission is true, then router to dashboard
   return (
     <div className="login_box">
       <img
@@ -35,7 +34,7 @@ export default function Login() {
         placeholder={"Username"}
       ></input>
       {showPopUp && (
-        <p className="validate_text">Please key in proper email address</p>
+        <p className="validate_text">User/Password is incorrect</p>
       )}
 
 <p>Password</p>
