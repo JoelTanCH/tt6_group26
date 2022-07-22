@@ -40,13 +40,16 @@ try:
         return decorated
 
     def getUserPassword(userName):
-        statement = "select * from user where username = '{}'".format(userName)
-        cur = connection .cursor()
-        cur.execute(statement)
-        password = cur.fetchall()
-        password = password[0][3]
-        cur.close()
-        return password
+        try:
+            statement = "select * from user where username = '{}'".format(userName)
+            cur = connection .cursor()
+            cur.execute(statement)
+            password = cur.fetchall()
+            password = password[0][2]
+            cur.close()
+            return password
+        except:
+            return None
 
     class create_dict(dict): 
     
@@ -83,12 +86,11 @@ try:
         auth = request.authorization
         userInput = auth.username
         passwordInput = auth.password
-        
-        if(userInput and getUserPassword(userInput)):
+        passwordDB = getUserPassword(userInput) 
+        if(userInput and passwordInput == passwordDB):
             token = jwt.encode({'user' : auth.username, 'exp': datetime.utcnow() + timedelta(minutes=120)}, app.config['SECRETY_KEY'] )
             return jsonify({'token': token})
         return make_response('could not verify!', 404, {'WWW-Authenticate': 'Basic realm:"login required"'})
-    
     
         
     if __name__ == "__main__":
