@@ -149,3 +149,19 @@ button {
   height: 100%;
   margin-bottom: 20px;
 }
+
+.exchangerate-box{
+  display: flex;
+  flex-direction: column;  
+  margin: 5px;
+  border-radius: 5px;
+  min-width: 300px;
+  background: linear-gradient(rgb(217, 231, 231), rgb(220, 230, 230));
+}
+
+.exchangerate-header{
+  align-self: flex-start;
+  font-weight: bold;
+  padding: 5px;
+  margin: 0px
+}

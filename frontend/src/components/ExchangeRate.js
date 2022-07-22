@@ -73,11 +73,13 @@ export default function ExchangeRate() {
     const [currency, setCurrency] = React.useState(exchangeRate);
 
     return (
-        <div>
-            <h1>Exchange Rates</h1>
+        <div className="exchangerate-box">
+            <p className="exchangeboard-header">Exchange Rates</p>
+            <div className = "exchangeboard-box">
             <ul>
-            {exchangeRate.map((pair, i) => <ul key={i}>{pair.base_currency} - {pair.exchange_currency} {pair.rate}</ul>)}
+            {exchangeRate.map((pair, i) => <ul key={i}>1{pair.base_currency} = {pair.rate}{pair.exchange_currency}</ul>)}
             </ul>
+            </div>
         </div>
     )
 }
