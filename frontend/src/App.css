@@ -29,7 +29,8 @@ margin: 0;
 }
 
 .dashboard-left {
-  width: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-right {
@@ -42,7 +43,9 @@ margin: 0;
   flex-direction: column;  
   margin: 5px;
   border-radius: 5px;
+  min-width: 300px;
   background: linear-gradient(rgb(217, 231, 231), rgb(220, 230, 230));
+  padding: 5px 10px 0px;
 }
 
 .exchangeboard-header{
@@ -118,4 +121,47 @@ margin: 0;
 .exchange-btn:hover{
   background: linear-gradient(rgb(145, 145, 145), rgb(121, 121, 121));
   color: black;
+}
+
+button {
+  color: black;
+  text-align: center;
+  cursor: default;
+  background-color: white;
+  box-sizing: border-box;
+  margin: 5px;
+  font-size: 15px;
+  height: 80px;
+  width: 250px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+  border-image: initial;
+ }
+
+.wallets{
+  background: linear-gradient(rgb(217, 231, 231), rgb(220, 230, 230));
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 0px 30px 0px;
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+.exchangerate-box{
+  display: flex;
+  flex-direction: column;  
+  margin: 5px;
+  border-radius: 5px;
+  min-width: 300px;
+  background: linear-gradient(rgb(217, 231, 231), rgb(220, 230, 230));
+}
+
+.exchangerate-header{
+  align-self: flex-start;
+  font-weight: bold;
+  padding: 5px;
+  margin: 0px
 }

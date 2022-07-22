@@ -8,11 +8,11 @@ export default function DashBoard() {
     return (
     <div className = "dashboard-box">
         <div className='dashboard-left'>
-            <Wallets />
+            <div className="wallets"><Wallets /></div>
         </div>
         <div className='dashboard-right'>
             <ExchangeBoard />
-            <ExchangeRate />
+            <div className="exchange"><ExchangeRate /></div>
         </div>
     </div>
     )
