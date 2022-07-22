@@ -1,28 +1,67 @@
+import {useState} from 'react';
+
+
 
 export default function ExchangeBoard() {
 
-    function CurDatabox() {
-        return(
-            <div className="cur-data-box">
-                <div className="currency-select-left-box">
-                    <select className="currency-select"></select>
-                </div>
+    let [currencyList, setCurrencyList] = useState(['SGD']);
+    let [baseInput, setBaseInput] = useState(0);
+    let [exchangeInput, setExchangeInput] = useState(0);
+    let [baseBal, setBaseBal] = useState(0);
 
-                <div className="currency-select-right-box">
-                    <input className="currency-input" type="number" placeholder="0" />
-                    <p className="currency-balance">Current Balance:</p>
-                </div>
-            </div>
-        )
-    }
+    async function handleOnExchange(){
+        console.log("This will call an api call function");
+    };
+
+    async function handleOnBaseChange(event) {
+        // update state of baseinput
+        setBaseInput(event.target.value);
+
+        // get exchangeRate from API
+
+        // generate exchangeInput and setstate based on the rate (api will return ammount)
+
+    };
+
+
 
     return (
         <div className = "exchangeboard-box">
             <p className="exchangeboard-header">Wallet name</p>
             <div className = "exchangeboard-box">
                 <p className = "exchange-text">Exchange</p>
-                <CurDatabox />
-                <CurDatabox />
+
+                {/* This is for the base */}
+                <div className="cur-data-box">
+                    <div className="currency-select-left-box">
+                        <select className="currency-select">
+                            <option value="select">Select</option>
+                            {currencyList.map(currency => <option value={currency.toLowerCase()}>{currency}</option>)}
+                        </select>
+                    </div>
+
+                    <div className="currency-select-right-box">
+                        <input className="currency-input" type="number" onChange={(handleOnBaseChange)} value={baseInput}/>
+                        <p className="currency-balance">{`Current Balance: ${baseBal}`}</p>
+                    </div>
+                </div>
+
+                {/* This is for the exchanged */}
+                <div className="cur-data-box">
+                    <div className="currency-select-left-box">
+                        <select className="currency-select">
+                            <option value="select">Select</option>
+                            {currencyList.map(currency => <option value={currency.toLowerCase()}>{currency}</option>)}
+                        </select>
+                    </div>
+
+                    <div className="currency-select-right-box">
+                        <input className="currency-input" type="number" value={exchangeInput} disabled/>
+                        <p className="currency-balance">{`Current Balance: ${baseBal}`}</p>
+                    </div>
+                </div>                
+
+                <div className="exchange-btn" onClick={handleOnExchange}>Exchange</div>
             </div>
         </div>
     )
