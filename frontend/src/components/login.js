@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import "./Login.styles.css";
-
 export default function Login() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [userName, setUserName] = useState("");
