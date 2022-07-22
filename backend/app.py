@@ -44,12 +44,13 @@ try:
             statement = "select * from user where username = '{}'".format(userName)
             cur = connection .cursor()
             cur.execute(statement)
-            password = cur.fetchall()
-            password = password[0][2]
+            userRecord = cur.fetchall()
+            password = userRecord[0][2]
+            userId = userRecord[0][0]
             cur.close()
-            return password
+            return userId, password
         except:
-            return None
+            return None, None
 
     class create_dict(dict): 
     
@@ -142,9 +143,9 @@ try:
         auth = request.authorization
         userInput = auth.username
         passwordInput = auth.password
-        passwordDB = getUserPassword(userInput) 
+        userIdDB, passwordDB = getUserPassword(userInput) 
         if(userInput and passwordInput == passwordDB):
-            token = jwt.encode({'user' : auth.username, 'exp': datetime.utcnow() + timedelta(minutes=120)}, app.config['SECRETY_KEY'] )
+            token = jwt.encode({'user' : auth.username, 'userId': userIdDB,'exp': datetime.utcnow() + timedelta(minutes=120)}, app.config['SECRETY_KEY'] )
             return jsonify({'token': token})
         return make_response('could not verify!', 404, {'WWW-Authenticate': 'Basic realm:"login required"'})
     
