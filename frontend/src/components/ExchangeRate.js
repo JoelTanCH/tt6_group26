@@ -74,20 +74,10 @@ export default function ExchangeRate() {
 
     return (
         <div>
-            <table>
-            <tr key={"header"}>
-                {Object.keys(currency[0]).map((key) => (
-                <th>{key}</th>
-                ))}
-            </tr>
-            {currency.map((item) => (
-            <tr key={item.id}>
-                {Object.values(item).map((val) => (
-                <td>{val}</td>
-                ))}
-            </tr>
-            ))}
-            </table>
+            <h1>Exchange Rates</h1>
+            <ul>
+            {exchangeRate.map((pair, i) => <ul key={i}>{pair.base_currency} - {pair.exchange_currency} {pair.rate}</ul>)}
+            </ul>
         </div>
     )
 }
