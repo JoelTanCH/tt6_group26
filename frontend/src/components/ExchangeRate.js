@@ -74,7 +74,10 @@ export default function ExchangeRate() {
 
     return (
         <div>
-            {exchangeRate.map((e, i) => <li key={i}>{e.base_currency} - {e.exchange_currency} {e.rate}</li>)}
+            <h1>Exchange Rates</h1>
+            <ul>
+            {exchangeRate.map((pair, i) => <ul key={i}>{pair.base_currency} - {pair.exchange_currency} {pair.rate}</ul>)}
+            </ul>
         </div>
     )
 }
