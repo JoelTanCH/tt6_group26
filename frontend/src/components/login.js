@@ -27,11 +27,12 @@ export default function Login() {
     // if login success
     if (res.status === 200) {
       // storing data to session storage
-      sessionStorage.setItem('jwt', res.accessToken);
+      sessionStorage.setItem('jwt', res.accessToken.token);
       // set global data such as authenticated to true
-      console.log(res.accessToken);
-
-      return
+      console.log(res.accessToken.token);
+      setAuth(true);
+      navigate("/home");
+      
     }  else {
       alert("Incorrect username/password");
     }
@@ -70,10 +71,8 @@ export default function Login() {
         className="login_button" onClick={
           () => {
             checkLogin(userName,password);
-            console.log(userName, password);
             handleLogin(userName, password);
-            setAuth(true);
-            navigate("/home");
+            console.log(userName, password)
           }
           
         }
