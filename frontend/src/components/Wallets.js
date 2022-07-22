@@ -36,11 +36,8 @@ export default function Wallets() {
 
     return (
         <div>
-            {wallet}<br />
-            <select onChange={handleWalletChange}> 
-            <option value="Select a Wallet">Wallets</option>
-            {wallets.map((wallet) => <option value={wallet.name}>{wallet.name}</option>)}
-            </select><br />
+        <h1>Wallets</h1>
+            {wallets.map((wallet, i) => <ul><button key={i}>{wallet.name}</button></ul>)}
         </div>
     )
 }

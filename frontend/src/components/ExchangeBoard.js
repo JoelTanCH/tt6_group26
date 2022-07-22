@@ -8,6 +8,7 @@ export default function ExchangeBoard() {
     let [baseInput, setBaseInput] = useState(0);
     let [exchangeInput, setExchangeInput] = useState(0);
     let [baseBal, setBaseBal] = useState(0);
+    let [exchangeBal, setExchangeBal] = useState(0);
 
     async function handleOnExchange(){
         console.log("This will call an api call function");
@@ -45,6 +46,8 @@ export default function ExchangeBoard() {
                         <p className="currency-balance">{`Current Balance: ${baseBal}`}</p>
                     </div>
                 </div>
+
+                <p className='toLabel'>To</p>
 
                 {/* This is for the exchanged */}
                 <div className="cur-data-box">
