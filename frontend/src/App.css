@@ -123,7 +123,7 @@ margin: 0;
   color: black;
 }
 
-button {
+.wallets-button {
   color: black;
   text-align: center;
   cursor: default;
@@ -136,7 +136,6 @@ button {
   border-width: 1px;
   border-style: solid;
   border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
-  border-image: initial;
  }
 
 .wallets{
@@ -164,4 +163,12 @@ button {
   font-weight: bold;
   padding: 5px;
   margin: 0px
+}
+
+.exchangerate-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+  margin-right: 80px;
 }
