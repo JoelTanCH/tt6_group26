@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -14,8 +15,11 @@ export default function Login() {
   const checkLogin = (userName, userPassword) => {
     if(userName==='testuser' && userPassword==='testpassword'){
         setPermission(true)
+        navigate("/home");
     }
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="login_box">
@@ -49,7 +53,8 @@ export default function Login() {
         className="login_button" onClick={
           () => {
             checkUserName(userName);
-            checkLogin(userName,password)
+            checkLogin(userName,password);
+            this.setState({loggedIn: true})
           }
           
         }
