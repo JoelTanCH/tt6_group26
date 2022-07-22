@@ -72,7 +72,29 @@ try:
             mydict.add(row[0],({"username":row[1],"user":row[3]}))
         return  json.dumps(mydict, indent=2, sort_keys=True)
     
-    def getAllExchangeRate(json_str=True):
+    def getAllWallets(json_str=True):
+        cur = connection.cursor()
+        cur.execute("SELECT * FROM wallet")
+        walletDetails = cur.fetchall()
+        cur.close()
+        mydict = create_dict()
+        for row in walletDetails:
+            mydict.add(row[0],({"user_id":row[1], "name":row[2]}))
+        return  json.dumps(mydict, indent=2, sort_keys=True)
+    
+    def getAllWalletsByUserId(userId, json_str=True):
+        cur = connection.cursor()
+        statement = "SELECT * FROM wallet where user_id={}".format(userId)
+        print(statement)
+        cur.execute(statement)
+        walletDetails = cur.fetchall()
+        cur.close()
+        mydict = create_dict()
+        for row in walletDetails:
+            mydict.add(row[0],({"name":row[2]}))
+        return  json.dumps(mydict, indent=2, sort_keys=True)
+    
+    def getAllExchangeRates(json_str=True):
         cur = connection.cursor()
         cur.execute("SELECT * FROM exchange_rate")
         exchangeRateDetails = cur.fetchall()
@@ -90,11 +112,29 @@ try:
         if userDetails:
             return userDetails
         
-    @app.route('/exchange')
-    def exchangeRate():
-        exchangeRateDetails = getAllExchangeRate()
+    @app.route('/wallets/<int:userId>')
+    def walletsByUserId(userId):
+        walletDetails = getAllWalletsByUserId(userId)
+        if walletDetails:
+            return walletDetails
+        
+    @app.route('/wallets')
+    def wallets():
+        walletDetails = getAllWallets()
+        if walletDetails:
+            return walletDetails
+        
+    @app.route('/exchanges')
+    def exchangeRates():
+        exchangeRateDetails = getAllExchangeRates()
         if exchangeRateDetails:
             return exchangeRateDetails
+        
+    # @app.route('/currency')
+    # def exchangeRate():
+    #     exchangeRateDetails = getAllExchangeRate()
+    #     if exchangeRateDetails:
+    #         return exchangeRateDetails
         
         
     @app.route('/login', methods=['POST'])
