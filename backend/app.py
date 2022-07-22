@@ -6,6 +6,7 @@ import yaml
 from datetime import date, datetime, timedelta
 import jwt
 from functools import wraps
+import requests
 
 
 app = Flask(__name__)
@@ -92,7 +93,64 @@ try:
             return jsonify({'token': token})
         return make_response('could not verify!', 404, {'WWW-Authenticate': 'Basic realm:"login required"'})
     
-        
+    @app.route('/get_currencies_available', methods = ['GET'])
+    def get_all_currencies():
+        '''
+        :input: none
+        :output: List of Json strings 
+                [{"symbol":"USD","name":"United States Dollar"},
+                {"symbol":"ALL","name":"Albania Lek"}, ....]
+        '''
+
+        headers = {
+            "X-RapidAPI-Key": db['X-RapidAPI-Key'],
+            "X-RapidAPI-Host": db['X-RapidAPI-Host']
+        }
+        print(db['AVAIL_CURRENCIES_URL'])
+        response = requests.request("GET", db['AVAIL_CURRENCIES_URL'], headers=headers)
+        #print(response)
+        return response.text
+
+    @app.route('/currency_convert', methods = ['GET'])
+    def convert_currency():
+        '''
+        converts the currency from any  to specified currency 
+        :input: {
+            "convert_from" : string 
+            "convert_to" : string 
+            "convert_amount" : float 
+        }
+        :output: {
+            {
+                "success":true,
+                "validationMessage":[],
+                "result":{
+                    "from":"AUD",
+                    "to":"CAD",
+                    "amountToConvert":4,
+                    "convertedAmount":3.5587579628824426
+                    }
+                }
+            }
+        '''
+        convert_from = request.json['convert_from']
+        convert_to = request.json['convert_to']
+        convert_amount = request.json['convert_amount']
+
+        querystring = {"from" : convert_from,
+                        "to" : convert_to,
+                        "amount" : convert_amount}
+
+        headers = {
+            "X-RapidAPI-Key": db['X-RapidAPI-Key'],
+            "X-RapidAPI-Host": db['X-RapidAPI-Host']
+        }
+
+        response = requests.request("GET", db['CURRENCY_CONVERTER_URL'], headers=headers, params=querystring)
+
+        return response.text
+    
+    
     if __name__ == "__main__":
         app.run()
         
