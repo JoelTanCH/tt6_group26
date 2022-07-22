@@ -38,6 +38,11 @@ try:
             return f(*args, **kwargs)
         
         return decorated
+    
+    def getUserIdFromToken(token):
+        data = jwt.decode(token, app.config['SECRETY_KEY'], algorithms=["HS256"])
+        return data['userId']
+        
 
     def getUserPassword(userName):
         try:
@@ -74,27 +79,17 @@ try:
         return  json.dumps(mydict, indent=2, sort_keys=True)
     
     def getAllWallets(json_str=True):
+        userId = getUserIdFromToken(request.args.get('token'))
         cur = connection.cursor()
-        cur.execute("SELECT * FROM wallet")
+        cur.execute("SELECT * FROM wallet where user_id={}".format(userId))
         walletDetails = cur.fetchall()
         cur.close()
         mydict = create_dict()
-        for row in walletDetails:
-            mydict.add(row[0],({"user_id":row[1], "name":row[2]}))
+        for x, row in enumerate(walletDetails, start=1):
+            mydict.add(x,({"user_id":row[1], "name":row[2]}))
         return  json.dumps(mydict, indent=2, sort_keys=True)
     
-    def getAllWalletsByUserId(userId, json_str=True):
-        cur = connection.cursor()
-        statement = "SELECT * FROM wallet where user_id={}".format(userId)
-        print(statement)
-        cur.execute(statement)
-        walletDetails = cur.fetchall()
-        cur.close()
-        mydict = create_dict()
-        for row in walletDetails:
-            mydict.add(row[0],({"name":row[2]}))
-        return  json.dumps(mydict, indent=2, sort_keys=True)
-    
+   
     def getAllExchangeRates(json_str=True):
         cur = connection.cursor()
         cur.execute("SELECT * FROM exchange_rate")
@@ -113,13 +108,8 @@ try:
         if userDetails:
             return userDetails
         
-    @app.route('/wallets/<int:userId>')
-    def walletsByUserId(userId):
-        walletDetails = getAllWalletsByUserId(userId)
-        if walletDetails:
-            return walletDetails
-        
     @app.route('/wallets')
+    @token_required
     def wallets():
         walletDetails = getAllWallets()
         if walletDetails:
