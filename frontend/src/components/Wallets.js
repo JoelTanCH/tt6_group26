@@ -37,8 +37,8 @@ export default function Wallets() {
     return (
         <>
         <h1>Wallets</h1>
-            {wallets.map((wallet, i) => <button key={i}>{wallet.name}</button>)}
-            <button>Add Wallet</button>
+            {wallets.map((wallet, i) => <button className='wallets-button' key={i}>{wallet.name}</button>)}
+            <button className='wallets-button'>Add Wallet</button>
         </>
     )
 }
