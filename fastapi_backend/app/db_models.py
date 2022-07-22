@@ -58,7 +58,7 @@ class Transaction(Base):
 
 
 class ExchangeRate(Base):
-    __tablename__ = "exchangerates"
+    __tablename__ = "exchange_rate"
 
     id = Column(Integer, primary_key=True, index=True)
     base_currency = Column(String)
