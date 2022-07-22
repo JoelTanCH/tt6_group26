@@ -123,7 +123,7 @@ margin: 0;
   color: black;
 }
 
-button {
+.wallets-button {
   color: black;
   text-align: center;
   cursor: default;
@@ -138,6 +138,11 @@ button {
   border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
   border-image: initial;
  }
+
+ .wallets-button:hover{
+  background: linear-gradient(rgb(218, 216, 216), rgb(203, 202, 202));
+  color: black;
+}
 
 .wallets{
   background: linear-gradient(rgb(217, 231, 231), rgb(220, 230, 230));
@@ -164,6 +169,10 @@ button {
   font-weight: bold;
   padding: 5px;
   margin: 0px
+}
+
+.exchangerate-table{
+  margin-right: 80px;
 }
 
 .login_box{
