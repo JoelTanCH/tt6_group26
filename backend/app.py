@@ -71,14 +71,30 @@ try:
         for row in userDetails:
             mydict.add(row[0],({"username":row[1],"user":row[3]}))
         return  json.dumps(mydict, indent=2, sort_keys=True)
+    
+    def getAllExchangeRate(json_str=True):
+        cur = connection.cursor()
+        cur.execute("SELECT * FROM exchange_rate")
+        exchangeRateDetails = cur.fetchall()
+        cur.close()
+        mydict = create_dict()
+        for row in exchangeRateDetails:
+            mydict.add(row[0],({"base_currency":row[1],"exchange_currency":row[2], "rate":row[3]}))
+        return  json.dumps(mydict, indent=2, sort_keys=True)
 
 
     @app.route('/users')
-    # @token_required
+    @token_required
     def users():
         userDetails = getAllUsers()
         if userDetails:
             return userDetails
+        
+    @app.route('/exchange')
+    def exchangeRate():
+        exchangeRateDetails = getAllExchangeRate()
+        if exchangeRateDetails:
+            return exchangeRateDetails
         
         
     @app.route('/login', methods=['POST'])
