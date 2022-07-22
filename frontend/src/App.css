@@ -5,21 +5,44 @@ input::-webkit-inner-spin-button {
 margin: 0;
 }
 
+
+
 .App {
+  box-sizing: border-box;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(rgb(145, 145, 145), rgb(126, 229, 233));
 }
 
 .dashboard-box{
   /* can change later  */
-  width: 400px;
+  margin: 10px;
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  background: linear-gradient(rgb(168, 186, 187), rgb(198, 219, 219));
+  padding-top: 20px;
+  
 }
 
+.dashboard-left {
+  width: 200px;
+}
+
+.dashboard-right {
+  display: flex;
+  flex-direction: column;
+}
 
 .exchangeboard-box{
-  border: 1px solid red;
   display: flex;
   flex-direction: column;  
   margin: 5px;
+  border-radius: 5px;
+  background: linear-gradient(rgb(217, 231, 231), rgb(220, 230, 230));
 }
 
 .exchangeboard-header{
@@ -27,6 +50,11 @@ margin: 0;
   font-weight: bold;
   padding: 5px;
   margin: 0px
+}
+
+.toLabel{
+  margin: 5px;
+  font-weight: bold;
 }
 
 .exchange-text{
@@ -37,19 +65,17 @@ margin: 0;
 }
 
 .cur-data-box {
-  border: 1px solid black;
+  background: linear-gradient(rgb(112, 112, 112), rgb(88, 88, 88));
   height: 100px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
 }
 
 .currency-select-left-box{
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid red;
   width: 100px;
 }
 
@@ -59,7 +85,6 @@ margin: 0;
 }
 
 .currency-select-right-box{
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   width: 100px;
@@ -76,13 +101,21 @@ margin: 0;
 .currency-balance{
   font-size: 10px;
   width: 100%;
+  color: white;
 }
 
 .exchange-btn{
-  border: 1px solid red;
   width: 100px;
   font-size: 12px;
   border-radius: 3px;
   align-self: center;
-  margin-bottom: 10px;
+  margin: 10px;
+  background: linear-gradient(rgb(112, 112, 112), rgb(88, 88, 88));
+  color: white;
+  padding: 3px
+}
+
+.exchange-btn:hover{
+  background: linear-gradient(rgb(145, 145, 145), rgb(121, 121, 121));
+  color: black;
 }
