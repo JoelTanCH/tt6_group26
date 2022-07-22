@@ -1,16 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from './components/login'
 import DashBoard from "./components/DashBoard";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
-      <Login/>
-      <DashBoard />
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Login/>}></Route>
+          <Route path='/home' element={<DashBoard/>}></Route>
+        </Routes>
+      </Router>
     </div>
   );
 }

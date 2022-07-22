@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { login } from "../Api/api";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Login() {
@@ -16,6 +17,7 @@ export default function Login() {
   const checkLogin = (userName, userPassword) => {
     if(userName==='testuser' && userPassword==='testpassword'){
         setPermission(true)
+        navigate("/home");
     }
   };
 
@@ -33,6 +35,7 @@ export default function Login() {
       alert("Incorrect username/password");
     }
   }
+  const navigate = useNavigate();
 
   return (
     <div className="login_box">
@@ -69,6 +72,7 @@ export default function Login() {
             checkLogin(userName,password);
             console.log(userName, password);
             handleLogin(userName, password);
+            this.setState({loggedIn: true});
           }
           
         }
