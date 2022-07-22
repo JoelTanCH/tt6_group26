@@ -20,6 +20,8 @@ class Wallet(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     user = relationship("User", back_populates="wallets")
+    currencies = relationship("Currency", back_populates="wallet", cascade="all, delete, delete-orphan")
+    transactions = relationship("Transaction", back_populates="wallet", cascade="all, delete, delete-orphan")
 
 class Currency(Base):
     __tablename__ = "currencies"
