@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { login } from "../Api/api";
+
 
 export default function Login() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -16,6 +18,21 @@ export default function Login() {
         setPermission(true)
     }
   };
+
+  async function handleLogin(user, pass) {
+    let res = await login(user, pass);
+    // if login success
+    if (res.status === 200) {
+      // storing data to session storage
+      sessionStorage.setItem('jwt', res.accessToken);
+      // set global data such as authenticated to true
+      console.log(res.accessToken);
+
+      return
+    }  else {
+      alert("Incorrect username/password");
+    }
+  }
 
   return (
     <div className="login_box">
@@ -49,7 +66,9 @@ export default function Login() {
         className="login_button" onClick={
           () => {
             checkUserName(userName);
-            checkLogin(userName,password)
+            checkLogin(userName,password);
+            console.log(userName, password);
+            handleLogin(userName, password);
           }
           
         }
