@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { login } from "../Api/api";
 import { useNavigate } from "react-router-dom";
+
 
 export default function Login() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -19,6 +21,20 @@ export default function Login() {
     }
   };
 
+  async function handleLogin(user, pass) {
+    let res = await login(user, pass);
+    // if login success
+    if (res.status === 200) {
+      // storing data to session storage
+      sessionStorage.setItem('jwt', res.accessToken);
+      // set global data such as authenticated to true
+      console.log(res.accessToken);
+
+      return
+    }  else {
+      alert("Incorrect username/password");
+    }
+  }
   const navigate = useNavigate();
 
   return (
@@ -54,7 +70,9 @@ export default function Login() {
           () => {
             checkUserName(userName);
             checkLogin(userName,password);
-            this.setState({loggedIn: true})
+            console.log(userName, password);
+            handleLogin(userName, password);
+            this.setState({loggedIn: true});
           }
           
         }
