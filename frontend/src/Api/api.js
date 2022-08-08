@@ -23,3 +23,15 @@ export async function login(user, pass) {
         return {status: err.response.status};
     }
 }
+
+export async function getCurrencies() {
+    try{
+        const res = await API.get('/get_currencies_available', {}, {})
+        return {
+            status: res.status,
+            currencySymbols: res.data.currency_symbols
+        }
+    } catch(err) {
+        return {status: err.response.status};
+    }
+}
