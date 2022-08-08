@@ -23,8 +23,7 @@ export default function ExchangeBoard() {
         // generate exchangeInput and setstate based on the rate (api will return ammount)
 
     };
-
-
+    
 
     return (
         <div className = "exchangeboard-box">

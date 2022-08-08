@@ -74,8 +74,8 @@ export default function ExchangeRate() {
 
     return (
         <div className="exchangerate-box">
-            <p className="exchangeboard-header">Exchange Rates</p>
-            <div className = "exchangeboard-box">
+            <p className="exchangerate-header">Exchange Rates</p>
+            <div className = "exchangerate-box">
                 <ul className="exchangerate-table">
                     {exchangeRate.map((pair, i) => <ul key={i}>1{pair.base_currency} = {pair.rate}{pair.exchange_currency}</ul>)}
                 </ul>
