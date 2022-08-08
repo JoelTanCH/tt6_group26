@@ -1,4 +1,6 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import axios from "axios";
+import { getCurrencies } from "../Api/api";
 
 
 
@@ -9,6 +11,28 @@ export default function ExchangeBoard() {
     let [exchangeInput, setExchangeInput] = useState(0);
     let [baseBal, setBaseBal] = useState(0);
     let [exchangeBal, setExchangeBal] = useState(0);
+
+    //use effect used to load currencies initially when page renders
+    useEffect(() => {
+
+        console.log("Loading Currencies!");
+
+        //declare data fetching async function
+        const fetchData = async () => {
+            const data = await getCurrencies();
+            // if login success
+            if (data.status === 200) {
+                // update currency List 
+                setCurrencyList(data.currencySymbols)
+                console.log('currency list has been updated')
+            }else {
+                alert("something went wrong");
+            }
+        }
+        //call the function 
+        fetchData()
+    }, [])
+
 
     async function handleOnExchange(){
         console.log("This will call an api call function");
