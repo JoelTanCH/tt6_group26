@@ -7,7 +7,7 @@ import yaml
 from datetime import date, datetime, timedelta
 import jwt
 from functools import wraps
-import requests
+import requests, json
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -107,10 +107,11 @@ try:
             "X-RapidAPI-Key": db['X-RapidAPI-Key'],
             "X-RapidAPI-Host": db['X-RapidAPI-Host']
         }
-        print(db['AVAIL_CURRENCIES_URL'])
         response = requests.request("GET", db['AVAIL_CURRENCIES_URL'], headers=headers)
-        #print(response)
-        return response.text
+        json_data = json.loads(response.text)
+        currency_symbols = [currency['symbol'] for currency in json_data]
+
+        return {'currency_symbols': currency_symbols}
 
     @app.route('/currency_convert', methods = ['GET'])
     def convert_currency():
