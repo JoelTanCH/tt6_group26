@@ -35,3 +35,26 @@ export async function getCurrencies() {
         return {status: err.response.status};
     }
 }
+
+export async function getConvertedAmount(fromCurrency, toCurrency, convertAmount){
+    if (fromCurrency === toCurrency){
+        return convertAmount;
+    }else{
+
+        const payload = {
+            'convert_from': fromCurrency,
+            'convert_to': toCurrency,
+            'convert_amount': convertAmount
+        }
+
+        try{
+            const res = await API.post('/currency_convert', payload , {})
+            return {
+                status: res.status,
+                convertedAmount: res.data
+            }
+        } catch(err){
+            return {status: err.response.status}
+        }
+    }
+}
