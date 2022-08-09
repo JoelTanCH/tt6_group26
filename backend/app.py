@@ -12,7 +12,7 @@ import requests, json
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRETY_KEY'] = 'thisistechtrek6'
-CORS(app=app)
+CORS(app)
 
 try:
     db = yaml.load(open('db.yaml'), Loader=yaml.Loader)
@@ -113,7 +113,7 @@ try:
 
         return {'currency_symbols': currency_symbols}
 
-    @app.route('/currency_convert', methods = ['GET'])
+    @app.route('/currency_convert', methods = ['GET','POST'])
     def convert_currency():
         '''
         converts the currency from any  to specified currency 
@@ -135,9 +135,14 @@ try:
                 }
             }
         '''
+        print(request)
+        print(request.json)
         convert_from = request.json['convert_from']
         convert_to = request.json['convert_to']
         convert_amount = request.json['convert_amount']
+
+        print(convert_from, convert_to, convert_amount)
+        print('hello')
 
         querystring = {"from" : convert_from,
                         "to" : convert_to,
